@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse_lazy
 from django.db.models import OneToOneField, ForeignKey, TextField, CharField, FloatField
 from django.db.models.base import Model
 from django.db.models.fields import BooleanField, IntegerField, DateTimeField
@@ -9,11 +10,14 @@ from django.db.models.fields.related import ManyToManyField
 class Profile(Model):
     is_guide = BooleanField(default=False)
     user = OneToOneField(User)
-    profile_picture = ImageField()
+    profile_picture = ImageField(blank=True, null=True)
     name = TextField()
 
     def get_rating(self):
         return sum([float(review.stars) for review in self.reviews.all()]) / float(self.reviews.count())  # TODO: test this
+
+    def get_update_url(self):
+        return reverse_lazy('profile.edit', kwargs={'pk': self.pk})
 
     def __str__(self):
         return ('Guide - %s' if self.is_guide else 'Tourist - %s') % self.name

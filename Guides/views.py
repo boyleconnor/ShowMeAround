@@ -1,4 +1,8 @@
-from Guides.forms import ProfileForm
+from django.core.urlresolvers import reverse_lazy
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.views.generic import DetailView
+from Guides.forms import ProfileForm, TourForm
 from Guides.models import Tour, Profile
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
@@ -6,19 +10,37 @@ from django.views.generic.edit import CreateView
 # Create your views here.
 
 
-class TourListView(ListView):
+class TourList(ListView):
     model = Tour
+    form_class = TourForm
     template_name = 'index.html'
 
 
-class TourCreateView(CreateView):
+class TourCreate(CreateView):
     model = Tour
+    form_class = TourForm
 
-class ProfileCreate(CreateView):
+
+class TourDetail(DetailView):
+    model = Tour
+    template_name = 'tour/detail.html'
+
+
+class ProfileDetail(DetailView):
+    model = Profile
+    template_name = 'profile/detail.html'
+
+
+class ProfileUpdate(CreateView):
     model = Profile
     template_name = 'profile/edit.html'
     form_class = ProfileForm
 
-    def post(self, request, *args, **kwargs):
-        self.request.form.user = self.request.user
-        return super(ProfileCreate, self).post(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            request.user.profile
+        except Exception:
+            profile = Profile.objects.create(user=request.user)
+            return redirect(profile.get_update_url())
+        return super(ProfileUpdate, self).dispatch(request, *args, **kwargs)
+

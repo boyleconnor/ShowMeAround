@@ -1,11 +1,12 @@
 from django.conf.urls import *
 from django.contrib import admin
-from Guides.views import TourListView, TourCreateView
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic.base import RedirectView
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', TourListView.as_view(), name='tour-list'),
-    url(r'^tours/create$', TourCreateView.as_view(), name="tour-create"),
+    url(r'^$', RedirectView.as_view(url=reverse_lazy('guides:tour.list'))),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^guides/', include('Guides.urls')),
+    url(r'^guides/', include('Guides.urls', namespace='guides')),
 )
+
