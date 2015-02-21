@@ -9,9 +9,6 @@ class UserForm(ModelForm):
         fields = ['name', 'email']
         widgets = {'name': TextInput()}
 
-    def save(self, commit=True):
-        return super()
-
 
 class TourForm(ModelForm):
     class Meta:
