@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block title %}Permission Denied{% endblock %}
+
+{% block content %}
+    <p>Error 403 - You do not have permission to do this.</p>
+    <a href="{% url 'home' %}">Return to home</a>
+{% endblock %}
