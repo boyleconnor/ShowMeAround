@@ -14,7 +14,6 @@ class TourListView(ListView):
 class TourCreateView(CreateView):
     model = Tour
 
-
 class ProfileCreate(CreateView):
     model = Profile
     template_name = 'profile/edit.html'

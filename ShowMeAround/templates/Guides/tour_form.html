@@ -1,10 +1,66 @@
 {% include "base.html" %}
 
 {% block content %}
+<style type="text/css">
+	label[for="id_latitude"], label[for="id_longitude"], input[id="id_latitude"], input[id="id_longitude"] { 
+	    display: none;
+	}
+</style>
 
 <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Create" />
 </form>
+
+<label> Enter the address of the tour: </label> <input type="text" id="id_address" />
+
+<div id="map-canvas" style="height: 200px; width: 200px;">
+</div>
+
+<script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1cJ3PQ6l2bR5Xspx6Qg5ROAxmPLjL0CQ">
+    </script>
+
+	 <script type="text/javascript">
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(0, 0),
+                zoom: 1
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"),
+                    mapOptions);
+            {% comment %} Geocoder used to locate addresses in the map {% endcomment %}
+            geocoder = new google.maps.Geocoder();
+            {% comment %} Delay that will be used in the function to request address {% endcomment %}
+            var delay = (function(){
+                var timer = 0;
+                return function(callback, ms){
+                    clearTimeout (timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+            {% comment %} Geocoding input function {% endcomment %}
+            var marker = new google.maps.Marker();
+            $('#id_address').keyup(function() {
+                delay(function(){
+                    geocoder.geocode({ 'address': $('#id_address').val() }, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            marker.setMap(null);
+                            map.setCenter(results[0].geometry.location);
+                            marker = new google.maps.Marker({
+                                map: map,
+                                position: results[0].geometry.location
+                            });
+                            map.setZoom(15);
+                            map.panTo(marker.position);
+                            $('input[id="id_latitude"]').val(results[0].geometry.location.lat());
+                            $('input[id="id_longitude"]').val(results[0].geometry.location.lng());
+                        }
+                    });
+                }, 1000 );
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 
 {% endblock %}
