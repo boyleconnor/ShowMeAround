@@ -97,6 +97,9 @@ SITE_ID = 1
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = '/home/alan/Workspace/ShowMeAround/static/'
+MEDIA_ROOT = '/home/alan/Workspace/ShowMeAround/media/sta'
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',

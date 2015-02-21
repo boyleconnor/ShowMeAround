@@ -22,7 +22,7 @@ class TourCreate(CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_guide:
-            raise PermissionDenied
+            raise PermissionDenied('Please become a registered tour guide before you can create a tour')
         return super(TourCreate, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):

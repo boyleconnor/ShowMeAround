@@ -27,9 +27,11 @@
 			  			<li role="presentation"><a href="http://127.0.0.1:8000/"> Find tours </a>
 			  			</li>
   						<li role="presentation"><a href="{{ user.get_detail_url }}">Profile</a></li>
+  						{% if user.is_guide %}
 			  			<li>
 			  				<a href="{% url 'guides:tour.create' %}" > Create tour </a>
 			  			</li>
+			  			{% endif %}
 			  			<li>
 			  				<a href="{% url 'account_logout' %}" > Logout </a>
 			  			</li>

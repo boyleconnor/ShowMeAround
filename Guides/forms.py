@@ -7,7 +7,7 @@ from Guides.models import Tour, User, Review
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['name', 'email', 'languages']
+        fields = ['name', 'email', 'languages', 'profile_picture']
         widgets = {'name': TextInput()}
 
 

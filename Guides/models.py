@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.core.urlresolvers import reverse_lazy
-from django.db.models import ForeignKey, TextField, CharField, FloatField
+from django.db.models import ForeignKey, TextField, CharField, FloatField, ImageField
 from django.db.models.base import Model
 from django.db.models.fields import BooleanField, IntegerField, DateTimeField, EmailField
 from django.db.models.fields.related import ManyToManyField
@@ -29,6 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = CharField(unique=True, max_length=30)
     email = EmailField(unique=True)
     name = CharField(max_length=100, blank=True)
+    profile_picture = ImageField("Profile Pic", upload_to="images/", blank=True, null=True)
     is_staff = BooleanField(default=False)
     is_active = BooleanField(default=True)
     is_guide = BooleanField(default=False)
