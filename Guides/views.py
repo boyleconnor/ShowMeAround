@@ -1,8 +1,5 @@
-from django.core.urlresolvers import reverse_lazy
-from django.http.response import HttpResponseRedirect
-from django.shortcuts import redirect
-from django.views.generic import DetailView
-from Guides.forms import ProfileForm, TourForm
+from django.views.generic import DetailView, UpdateView
+from Guides.forms import UserForm, TourForm
 from Guides.models import Tour, User
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
@@ -31,18 +28,11 @@ class ProfileDetail(DetailView):
     template_name = 'profile/detail.html'
 
 
-class ProfileUpdate(CreateView):
+class ProfileUpdate(UpdateView):
     model = User
     template_name = 'profile/edit.html'
-    form_class = ProfileForm
+    form_class = UserForm
 
-    def dispatch(self, request, *args, **kwargs):
-        try:
-            request.user.profile
-        except Exception:
-            profile = User.objects.create(user=request.user)
-            return redirect(profile.get_update_url())
-        return super(ProfileUpdate, self).dispatch(request, *args, **kwargs)
 
 def joinTour(request, tour_id, user_id):
     activeTour = Tour.objects.get(pk=tour_id)
