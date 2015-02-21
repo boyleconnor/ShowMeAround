@@ -44,3 +44,12 @@ class ProfileUpdate(CreateView):
             return redirect(profile.get_update_url())
         return super(ProfileUpdate, self).dispatch(request, *args, **kwargs)
 
+def joinTour(request, tour_id, user_id):
+    activeTour = Tour.objects.get(pk=tour_id)
+    activeTour.tourists.add(Profile.objects.get(pk=profile_id))
+    return render('index.html')
+
+def leaveTour(request, tour_id, user_id):
+    activeTour = Tour.objects.get(pk=tour_id)
+    activeTour.tourists.remove(Profile.objects.get(pk=profile_id))
+    return render('index.html')
