@@ -105,7 +105,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'allauth.account.context_processors.account',
-    'allauth.socialaccount.context_processors.socialaccount'
+    #'allauth.socialaccount.context_processors.socialaccount'
 )
 
 TEMPLATE_DIRS = (
@@ -114,6 +114,7 @@ TEMPLATE_DIRS = (
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+AUTH_USER_MODEL = 'Guides.User'
 LOGIN_REDIRECT_URL = '/'
 '''
 SOCIALACCOUNT_QUERY_EMAIL = True

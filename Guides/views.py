@@ -3,7 +3,7 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import DetailView
 from Guides.forms import ProfileForm, TourForm
-from Guides.models import Tour, Profile
+from Guides.models import Tour, User
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 
@@ -27,12 +27,12 @@ class TourDetail(DetailView):
 
 
 class ProfileDetail(DetailView):
-    model = Profile
+    model = User
     template_name = 'profile/detail.html'
 
 
 class ProfileUpdate(CreateView):
-    model = Profile
+    model = User
     template_name = 'profile/edit.html'
     form_class = ProfileForm
 
@@ -40,7 +40,7 @@ class ProfileUpdate(CreateView):
         try:
             request.user.profile
         except Exception:
-            profile = Profile.objects.create(user=request.user)
+            profile = User.objects.create(user=request.user)
             return redirect(profile.get_update_url())
         return super(ProfileUpdate, self).dispatch(request, *args, **kwargs)
 
