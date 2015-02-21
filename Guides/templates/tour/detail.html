@@ -42,7 +42,11 @@
             {% endfor %}
         </table>
     {% else %}
-        {% if user_in_tour and user.is_authenticated %} <a href="{{ tour.get_leave_url }}">Leave Tour</a> {% elif not user_in_tour and user.is_authenticated %} <a href="{{ tour.get_join_url }}">Join Tour</a> {% else %} {% endif %}
+        {% if still_time %}
+            {% if user_in_tour and user.is_authenticated %} <a href="{{ tour.get_leave_url }}">Leave Tour</a> {% elif not user_in_tour and user.is_authenticated %} <a href="{{ tour.get_join_url }}">Join Tour</a> {% else %} {% endif %}
+        {% elif tour_over %}
+            <a href="{% url 'guides:review.create' subject_pk=tour.guide.id %}">Write a review of this tour</a>
+        {% endif %}
     {% endif %}
 
 {% endblock %}
