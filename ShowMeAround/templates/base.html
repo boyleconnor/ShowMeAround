@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
 		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="http://bootswatch.com/darkly/bootstrap.min.css">
 
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -24,7 +24,7 @@
 			  <div class="container-fluid">
 			  		<ul class="navbar nav-pills nav-justified" style="font-size: 2em;">
 			  		{% if user.is_authenticated %}
-			  			<li role="presentation" class="active"><a href="#"> Find tours </a>
+			  			<li role="presentation"><a href="http://127.0.0.1:8000/"> Find tours </a>
 			  			</li>
   						<li role="presentation"><a href="{{ user.get_detail_url }}">Profile</a></li>
 			  			<li>
@@ -46,7 +46,11 @@
 			  </div>
 		</nav>
 
-		{% block content %}
-		{% endblock %}
+		<div class="container">
+			{% block content %}
+
+			{% endblock %}
+		</div>
+
 	</body>
 </html>

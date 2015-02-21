@@ -64,7 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Tour(Model):
     title = TextField()
-    description = TextField()
+    description = TextField(help_text="On the description, please specify the general location(s) of the tour and ways to contact you. ")
     language = ForeignKey(Language, blank=True, null=True)
 
     guide = ForeignKey(User, related_name='guided_tours')

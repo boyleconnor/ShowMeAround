@@ -14,7 +14,7 @@ class UserForm(ModelForm):
 class TourForm(ModelForm):
     class Meta:
         model = Tour
-        exclude = ['guide']
+        exclude = ['guide', 'tourists']
         widgets = {
             'start_time': DateTimeWidget(usel10n=True, bootstrap_version=3),
             'end_time': DateTimeWidget(usel10n=True, bootstrap_version=3),

@@ -10,16 +10,16 @@
 		function initialize() {	
         var mapOptions = {
             center: new google.maps.LatLng(0, 0),
-            zoom: 1
+            zoom: 2
         };
         var map = new google.maps.Map(document.getElementById("map-canvas"),
                 mapOptions);
         {% for tour in object_list %}
         var couch{{ forloop.counter }} = new google.maps.Marker({
-            position: new google.maps.LatLng({{ couch.latitude }}, {{ couch.longitude }}),
+            position: new google.maps.LatLng({{ tour.latitude }}, {{ tour.longitude }}),
             map: map,
-            url: "Couches/{{ couch.user }}",
-            title:"{{ couch.user }}"
+            url: "tour/{{ tour.id }}",
+            title:"{{ tour.title }}"
         });
         google.maps.event.addListener(couch{{ forloop.counter }}, 'click', function() {
         	window.location.href = couch{{ forloop.counter }}.url;
@@ -30,7 +30,7 @@
 	</script>
 
 
-	<div id="map-canvas" style="width: 100%; height: 100%; position: relative; top: -100px;">
+	<div id="map-canvas" style="width: 100%; height: 100%; position: relative; bottom: 20px;">
 	</div>
 
 	<div class="input-group" style="position: fixed; top: 50%; left: 20%; z-index: 100;">

@@ -3,10 +3,35 @@
 {% block title %}{{ tour.title }}{% endblock %}
 
 {% block content %}
-    <h1>{{ tour.title }}</h1>
-    <p>{{ tour.start_time }} - {{ tour.end_time }}</p>
-    <p>{{ tour.description }}</p>
-    <p>Location [[ location ]]</p>
+    <div class="page-header">
+    <h1>{{ tour.title }}</h1> <small> From {{ tour.start_time }} to {{ tour.end_time }} </small>
+    </div>
+    <div class="well">
+        <p>{{ tour.description }}</p>
+    </div>
+
+    <div id="map-canvas" class="col-md-12" style="height: 200px;">
+    </div>
+
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1cJ3PQ6l2bR5Xspx6Qg5ROAxmPLjL0CQ">
+    </script>
+    <script type="text/javascript">
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng({{ tour.latitude }}, {{ tour.longitude }}),
+                zoom: 7
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"),
+                    mapOptions);
+                var couch = new google.maps.Marker({
+                    position: new google.maps.LatLng({{ tour.latitude }}, {{ tour.longitude }}),
+                    map: map
+                });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
     {% if tour.guide == user %}
         <table>
             {% for tourist in tour.tourists.all %}
