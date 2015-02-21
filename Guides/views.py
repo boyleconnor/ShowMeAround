@@ -46,10 +46,12 @@ class ProfileUpdate(CreateView):
 
 def joinTour(request, tour_id, user_id):
     activeTour = Tour.objects.get(pk=tour_id)
-    activeTour.tourists.add(Profile.objects.get(pk=profile_id))
+    activeTour.tourists.add(User.objects.get(pk=user_id))
+    activeTour.save()
     return render('index.html')
 
 def leaveTour(request, tour_id, user_id):
     activeTour = Tour.objects.get(pk=tour_id)
-    activeTour.tourists.remove(Profile.objects.get(pk=profile_id))
+    activeTour.tourists.remove(User.objects.get(pk=user_id))
+    activeTour.save()
     return render('index.html')
