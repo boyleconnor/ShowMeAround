@@ -15,6 +15,9 @@ class Profile(Model):
     def get_rating(self):
         return sum([float(review.stars) for review in self.reviews.all()]) / float(self.reviews.count())  # TODO: test this
 
+    def __str__(self):
+        return ('Guide - %s' if self.is_guide else 'Tourist - %s') % self.name
+
 
 class Tour(Model):
     title = TextField()
