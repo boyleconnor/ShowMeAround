@@ -3,10 +3,10 @@ from django.forms.widgets import HiddenInput, TextInput
 from Guides.models import Tour, User
 
 
-class ProfileForm(ModelForm):
+class UserForm(ModelForm):
     class Meta:
         model = User
-        exclude = ['user', 'is_guide', 'profile_picture']
+        fields = ['name', 'email']
         widgets = {'name': TextInput()}
 
     def save(self, commit=True):
