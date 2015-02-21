@@ -1,27 +1,28 @@
 {% include "base.html" %}
 
 {% block content %}
-<style type="text/css">
-	label[for="id_latitude"], label[for="id_longitude"], input[id="id_latitude"], input[id="id_longitude"], label[for="id_tourists"], select[id="id_tourists"], span[class="helptext"] { 
-	    display: none;
-	}
-</style>
+    <style type="text/css">
+        label[for="id_latitude"], label[for="id_longitude"], input[id="id_latitude"], input[id="id_longitude"], label[for="id_tourists"], select[id="id_tourists"], span[class="helptext"] {
+            display: none;
+        }
+    </style>
 
-<form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create" />
-</form>
+    <form action="" method="post">{% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <label> Enter the address of the tour: </label> <input type="text" id="id_address" />
 
-<label> Enter the address of the tour: </label> <input type="text" id="id_address" />
+        <div id="map-canvas" style="height: 200px; width: 200px;">
+        </div>
+        <input type="submit" value="Create" />
+    </form>
 
-<div id="map-canvas" style="height: 200px; width: 200px;">
-</div>
-
-<script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1cJ3PQ6l2bR5Xspx6Qg5ROAxmPLjL0CQ">
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1cJ3PQ6l2bR5Xspx6Qg5ROAxmPLjL0CQ">
     </script>
 
-	 <script type="text/javascript">
+    <script type="text/javascript">
         function initialize() {
             var mapOptions = {
                 center: new google.maps.LatLng(0, 0),

@@ -63,10 +63,31 @@ class Tour(Model):
 
     price = FloatField()
 
+    def get_detail_url(self):
+        return reverse_lazy('guides:tour.detail', kwargs={'pk': self.pk})
+
+    def get_join_url(self):
+        return reverse_lazy('guides:tour.join', kwargs={'pk': self.pk})
+
+    def get_leave_url(self):
+        return reverse_lazy('guides:tour.leave', kwargs={'pk': self.pk})
+
+    def get_absolute_url(self):
+        return self.get_detail_url()
+
+    def __str__(self):
+        return self.title
+
 
 class Review(Model):
+    class Meta:
+        unique_together = ('author', 'tour')
     title = CharField(max_length=255, blank=True)
     text = TextField(blank=True)
     author = ForeignKey(User, related_name='authored_reviews')
+    tour = ForeignKey(Tour, related_name='reviews')
     subject = ForeignKey(User)
     stars = IntegerField()
+
+    def __str__(self):
+        return

@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from datetime import timedelta
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'allauth',
     'allauth.account',
+    'datetimewidget',
     #'allauth.socialaccount',
     #'allauth.socialaccount.providers.facebook',
     'Guides',
@@ -125,3 +127,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 '''
+
+
+TIME_BEFORE = timedelta(minutes=20)  # the amount of time before a tour when the tour closes to additional users

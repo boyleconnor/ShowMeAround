@@ -5,7 +5,7 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', RedirectView.as_view(url=reverse_lazy('guides:tour.list'))),
+    url(r'^$', RedirectView.as_view(url=reverse_lazy('guides:tour.list')), name='home'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^guides/', include('Guides.urls', namespace='guides')),
 )

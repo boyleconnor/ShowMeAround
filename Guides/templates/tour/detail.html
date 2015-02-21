@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tour.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ tour.title }}</h1>
+    <p>{{ tour.start_time }} - {{ tour.end_time }}</p>
+    <p>{{ tour.description }}</p>
+    <p>Location [[ location ]]</p>
+    {% if tour.guide == user %}
+        <table>
+            {% for tourist in tour.tourists.all %}
+                <tr>
+                    <td>[[ profile picture ]]</td>
+                    <td>{{ tourist.name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        {% if user_in_tour %} <a href="{{ tour.get_leave_url }}">Leave Tour</a> {% else %} <a href="{{ tour.get_join_url }}">Join Tour</a>{% endif %}
+    {% endif %}
+
+{% endblock %}

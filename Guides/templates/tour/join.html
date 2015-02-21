@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Joining Tour "{{ tour.title }}"{% endblock %}
+
+{% block content %}
+    <h2>Joining Tour "{{ tour.title }}"</h2>
+    <p>Would you like to join this tour?</p>
+    <form method="post"><input type="submit">{% csrf_token %}</form>
+{% endblock %}

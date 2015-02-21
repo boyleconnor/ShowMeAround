@@ -1,10 +1,14 @@
+from datetime import datetime
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views.generic import DetailView, UpdateView
+import pytz
 from Guides.forms import UserForm, TourForm
 from Guides.models import Tour, User
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
-
-# Create your views here.
+from ShowMeAround.settings import TIME_BEFORE
 
 
 class TourList(ListView):
@@ -16,11 +20,44 @@ class TourList(ListView):
 class TourCreate(CreateView):
     model = Tour
     form_class = TourForm
+    template_name = 'tour/edit.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_guide:
+            raise PermissionDenied
+        return super(TourCreate, self).dispatch(request, *args, **kwargs)
 
 
 class TourDetail(DetailView):
     model = Tour
     template_name = 'tour/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TourDetail, self).get_context_data(**kwargs)
+        context['user_in_tour'] = self.request.user in self.object.tourists.all()
+        return context
+
+
+def join_tour(request, pk):
+    active_tour = Tour.objects.get(pk=pk)
+    if request.method == 'POST':
+        if timezone.now() > (active_tour.start_time-TIME_BEFORE):
+            raise PermissionDenied('Too late to join this tour')
+        active_tour.tourists.add(request.user.id)
+        active_tour.save()
+        return redirect(active_tour)
+    elif request.method == 'GET':
+        return render(request, 'tour/join.html', {'tour': active_tour})
+
+
+def leave_tour(request, pk):
+    active_tour = Tour.objects.get(pk=pk)
+    if request.method == 'POST':
+        active_tour.tourists.remove(request.user)
+        active_tour.save()
+        return redirect('home')
+    elif request.method == 'GET':
+        return render(request, 'tour/leave.html', {'tour': active_tour})
 
 
 class ProfileDetail(DetailView):
@@ -32,16 +69,3 @@ class ProfileUpdate(UpdateView):
     model = User
     template_name = 'profile/edit.html'
     form_class = UserForm
-
-
-def joinTour(request, tour_id, user_id):
-    activeTour = Tour.objects.get(pk=tour_id)
-    activeTour.tourists.add(User.objects.get(pk=user_id))
-    activeTour.save()
-    return render('index.html')
-
-def leaveTour(request, tour_id, user_id):
-    activeTour = Tour.objects.get(pk=tour_id)
-    activeTour.tourists.remove(User.objects.get(pk=user_id))
-    activeTour.save()
-    return render('index.html')
