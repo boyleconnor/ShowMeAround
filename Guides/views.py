@@ -1,10 +1,7 @@
-from datetime import datetime
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.generic import DetailView, UpdateView
-import pytz
 from Guides.forms import UserForm, TourForm
 from Guides.models import Tour, User
 from django.views.generic.list import ListView
