@@ -98,13 +98,21 @@ class Tour(Model):
 
 class Review(Model):
     class Meta:
-        unique_together = ('author', 'tour')
+        unique_together = ('author', 'subject')
     title = CharField(max_length=255, blank=True)
     text = TextField(blank=True)
     author = ForeignKey(User, related_name='authored_reviews')
-    tour = ForeignKey(Tour, related_name='reviews')
-    subject = ForeignKey(User)
+    subject = ForeignKey(User, related_name='reviews')
     stars = IntegerField()
+
+    def get_detail_url(self):
+        return reverse_lazy('guides:review.detail', kwargs={'pk': self.pk})
+
+    def get_edit_url(self):
+        return reverse_lazy('guides:review.edit', kwargs={'pk': self.pk})
+
+    def get_absolute_url(self):
+        return self.get_detail_url()
 
     def __str__(self):
         return self.title

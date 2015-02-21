@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Review - {{ review }}{% endblock %}
+
+{% block content %}
+    <h2>{{ review.title }}</h2>
+    <p><b>{{ review.stars }} / 5</b></p>
+    <p>About <a href="{{ review.subject.get_absolute_url }}">{{ review.subject.name }}</a> by <a href="{{ review.author.get_absolute_url }}">{{ review.author.name }}</a> </p>
+    <p>{{ review.text }}</p>
+
+{% endblock %}

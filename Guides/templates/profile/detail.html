@@ -17,7 +17,34 @@
     {% if profile.languages.all %}
             Languages spoken:
             <td>{% for language in profile.languages.all %}{{ language.get_name_display }}<br>{% endfor %}</td>
+<<<<<<< HEAD
 
+=======
+        </tr>
+        {% if profile.is_guide %}
+            <tr>
+                <th>Rating</th>
+                <td>{{ profile.get_rating }} / 5</td>
+            </tr>
+        {% endif %}
+    </table>
+    {% if profile.is_guide %}
+        <h2>Reviews</h2>
+    <table>
+    <tr>
+        <th>Title</th>
+        <th>Stars</th>
+        <th>Author</th>
+    </tr>
+    {% for review in profile.reviews.all %}
+        <tr>
+            <td><a href="{{ review.get_absolute_url }}">{{ review.title }}</a></td>
+            <td>{{ review.stars }} / 5</td>
+            <td><a href="{{ review.author.get_absolute_url }}">{{ review.author.name }}</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+>>>>>>> df35172cd8855be4e97703fc5c45467aa78c1616
     {% endif %}
     <a href="{{ profile.get_update_url }}">Edit</a>
 {% endblock %}
