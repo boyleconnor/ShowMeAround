@@ -16,6 +16,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = CharField(max_length=100, blank=True)
     is_staff = BooleanField(default=False)
     is_active = BooleanField(default=True)
+    is_guide = BooleanField(default=False)
     date_joined = DateTimeField(auto_now_add=True)
 
     def get_full_name(self):
@@ -28,14 +29,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.name if self.name else self.username
 
     def get_absolute_url(self):
-        return reverse_lazy('couches:profile.detail', kwargs={'username': self.username})
+        return self.get_detail_url()
 
-    def get_rating(self):
-        return sum([float(review.stars) for review in self.reviews.all()]) / float(
-            self.reviews.count())  # TODO: test this
+    def get_detail_url(self):
+        return reverse_lazy('guides:user.detail', kwargs={'pk': self.pk})
 
     def get_update_url(self):
-        return reverse_lazy('profile.edit', kwargs={'pk': self.pk})
+        return reverse_lazy('guides:user.edit', kwargs={'pk': self.pk})
+
+    def get_rating(self):
+        if self.reviews.count():
+            return sum([float(review.stars) for review in self.reviews.all()]) / float(self.reviews.count())  # TODO: test this
+        else:
+            return None
 
     def __str__(self):
         return ('Guide - %s' if self.is_guide else 'Tourist - %s') % self.name
