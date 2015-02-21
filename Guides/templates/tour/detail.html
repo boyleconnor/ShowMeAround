@@ -12,7 +12,7 @@
             {% for tourist in tour.tourists.all %}
                 <tr>
                     <td>[[ profile picture ]]</td>
-                    <td>{{ tourist.name }}</td>
+                    <td><a href="{{ tourist.get_absolute_url }}">{{ tourist.name }}</a></td>
                 </tr>
             {% endfor %}
         </table>

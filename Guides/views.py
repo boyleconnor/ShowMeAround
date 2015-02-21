@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.generic import DetailView, UpdateView
@@ -26,6 +27,10 @@ class TourCreate(CreateView):
         if not request.user.is_guide:
             raise PermissionDenied
         return super(TourCreate, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.guide = self.request.user
+        return super(TourCreate, self).form_valid(form)
 
 
 class TourDetail(DetailView):
@@ -63,9 +68,17 @@ def leave_tour(request, pk):
 class ProfileDetail(DetailView):
     model = User
     template_name = 'profile/detail.html'
+    context_object_name = 'profile'
 
 
 class ProfileUpdate(UpdateView):
     model = User
     template_name = 'profile/edit.html'
     form_class = UserForm
+
+    def get_object(self, queryset=None):
+        profile = super(ProfileUpdate, self).get_object(queryset)
+        if profile == self.request.user:
+            return profile
+        else:
+            raise PermissionDenied

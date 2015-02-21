@@ -9,12 +9,16 @@
         </tr>
         <tr>
             <th>Guide?</th>
-            <td>{% if user.is_guide %}Yes{% else %}No{% endif %}</td>
+            <td>{% if profile.is_guide %}Yes{% else %}No{% endif %}</td>
         </tr>
         <tr>
             <th>Name</th>
-            <td>{{ user.name }}</td>
+            <td>{{ profile.name }}</td>
+        </tr>
+        <tr>
+            <th>Languages</th>
+            <td>{% for language in profile.languages.all %}{{ language.get_name_display }}<br>{% endfor %}</td>
         </tr>
     </table>
-    <a href="{{ user.get_update_url }}">Edit</a>
+    <a href="{{ profile.get_update_url }}">Edit</a>
 {% endblock %}

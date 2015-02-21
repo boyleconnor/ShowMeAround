@@ -7,14 +7,16 @@ from Guides.models import Tour, User
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['name', 'email']
+        fields = ['name', 'email', 'languages']
         widgets = {'name': TextInput()}
 
 
 class TourForm(ModelForm):
     class Meta:
         model = Tour
-        fields = '__all__'
-        widgets = {'start_time': DateTimeWidget(usel10n=True, bootstrap_version=3),
-                   'end_time': DateTimeWidget(usel10n=True, bootstrap_version=3),
-                   'title': TextInput()}
+        exclude = ['guide']
+        widgets = {
+            'start_time': DateTimeWidget(usel10n=True, bootstrap_version=3),
+            'end_time': DateTimeWidget(usel10n=True, bootstrap_version=3),
+            'title': TextInput(),
+        }

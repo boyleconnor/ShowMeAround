@@ -6,10 +6,25 @@ from django.db.models.fields import BooleanField, IntegerField, DateTimeField, E
 from django.db.models.fields.related import ManyToManyField
 
 
+class Language(Model):
+    english_name = CharField(max_length=50)
+    native_name = CharField(max_length=50)
+
+    def get_name_display(self):
+        if self.english_name != self.native_name:
+            return '%s / %s' % (self.english_name, self.native_name)
+        else:
+            return self.english_name
+
+    def __str__(self):
+        return self.get_name_display()
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name', 'email', ]
 
+    languages = ManyToManyField(Language, null=True, blank=True)
     objects = UserManager()
     username = CharField(unique=True, max_length=30)
     email = EmailField(unique=True)
@@ -50,6 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Tour(Model):
     title = TextField()
     description = TextField()
+    language = ForeignKey(Language, blank=True, null=True)
 
     guide = ForeignKey(User, related_name='guided_tours')
     tourists = ManyToManyField(User, related_name='taken_tours', blank=True)
@@ -90,4 +106,4 @@ class Review(Model):
     stars = IntegerField()
 
     def __str__(self):
-        return
+        return self.title
