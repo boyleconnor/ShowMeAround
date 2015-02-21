@@ -7,5 +7,7 @@
 __pycache__/
 local_settings.py
 ShowMeAround/__pycache__/
+Guides/__pycache__/
+Guides/migrations/
 db.sqlite3
 
