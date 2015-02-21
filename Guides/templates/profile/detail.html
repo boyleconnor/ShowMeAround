@@ -3,17 +3,18 @@
 {% block title %}Viewing Profile: {{ profile }}{% endblock %}
 
 {% block content %}
+    {% if not profile.name %}
+        <div class="alert alert-danger">
+            You have no information on your profile! Please <a href="{{ profile.get_update_url }}"> edit your profile </a> to let other users know more about you.
+        </div>
+    {% endif %}
     <div class="page-header">
         <h1> {{ profile.name }} </h1> <h4> {% if profile.is_guide %} Approved Guide {% endif %} </h4>
     </div>
-    <table>
-        <tr>
-            <th>[Profile Picture]</th>
-        </tr>
-        <tr>
-            <th>Languages</th>
+    {% if profile.languages.all %}
+            Languages spoken:
             <td>{% for language in profile.languages.all %}{{ language.get_name_display }}<br>{% endfor %}</td>
-        </tr>
-    </table>
+
+    {% endif %}
     <a href="{{ profile.get_update_url }}">Edit</a>
 {% endblock %}

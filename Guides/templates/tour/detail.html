@@ -32,17 +32,14 @@
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 
-    {% if tour.guide == user %}
         <table>
+
             {% for tourist in tour.tourists.all %}
                 <tr>
-                    <td>[[ profile picture ]]</td>
-                    <td><a href="{{ tourist.get_absolute_url }}">{{ tourist.name }}</a></td>
+                    <td><a href="{{ tourist.get_absolute_url }}">{{ tourist.name }}</a> {% if tourist.name %} is going on this tour. {% endif %}</td>
                 </tr>
             {% endfor %}
         </table>
-    {% else %}
-        {% if user_in_tour and user.is_authenticated %} <a href="{{ tour.get_leave_url }}">Leave Tour</a> {% elif not user_in_tour and user.is_authenticated %} <a href="{{ tour.get_join_url }}">Join Tour</a> {% else %} {% endif %}
-    {% endif %}
+    {% if user_in_tour and user.is_authenticated %} <a href="{{ tour.get_leave_url }}">Leave Tour</a> {% elif not user_in_tour and user.is_authenticated %} <a href="{{ tour.get_join_url }}">Join Tour</a> {% endif %} 
 
 {% endblock %}
