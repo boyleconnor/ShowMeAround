@@ -47,6 +47,8 @@ def join_tour(request, pk):
     if request.method == 'POST':
         if timezone.now() > (active_tour.start_time-TIME_BEFORE):
             raise PermissionDenied('Too late to join this tour')
+        if active_tour.tourists.count() >= active_tour.capacity:
+            raise PermissionDenied('Sorry, this tour is at capacity')
         active_tour.tourists.add(request.user.id)
         active_tour.save()
         return redirect(active_tour)
