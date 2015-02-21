@@ -8,7 +8,13 @@
             <th>[Profile Picture]</th>
         </tr>
         <tr>
+            <th>Guide Status</th>
+            <td>{{ user.is_guide }}</td>
+        </tr>
+        <tr>
             <th>Name</th>
+            <td>{{ user.name }}</td>
         </tr>
     </table>
+    <a href="{{ user.get_update_url }}">Edit</a>
 {% endblock %}
