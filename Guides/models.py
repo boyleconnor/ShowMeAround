@@ -24,7 +24,7 @@ class Tour(Model):
     description = TextField()
 
     guide = ForeignKey(Profile, related_name='guided_tours')
-    tourists = ManyToManyField(blank=True, Profile, related_name='taken_tours')
+    tourists = ManyToManyField(Profile, related_name='taken_tours', blank=True)
     capacity = IntegerField()
 
     start_time = DateTimeField()
