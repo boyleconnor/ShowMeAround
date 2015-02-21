@@ -2,8 +2,8 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.generic import DetailView, UpdateView
-from Guides.forms import UserForm, TourForm
-from Guides.models import Tour, User
+from Guides.forms import UserForm, TourForm, ReviewForm
+from Guides.models import Tour, User, Review
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 from ShowMeAround.settings import TIME_BEFORE
@@ -79,3 +79,28 @@ class ProfileUpdate(UpdateView):
             return profile
         else:
             raise PermissionDenied
+
+
+class ReviewCreate(CreateView):
+    model = Review
+    template_name = 'review/edit.html'
+    form_class = ReviewForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ReviewCreate, self).get_context_data(**kwargs)
+        context['subject'] = User.objects.get(id=self.kwargs['subject_pk'])
+        return context
+
+    def get_form(self, form_class):
+        form = super(ReviewCreate, self).get_form(form_class)
+        return form
+
+    def form_valid(self, form):
+        form.instance.author = User.objects.get(id=self.request.user.id)
+        form.instance.subject = User.objects.get(id=self.kwargs['subject_pk'])
+        return super(ReviewCreate, self).form_valid(form)
+
+
+class ReviewDetail(DetailView):
+    model = Review
+    template_name = 'review/detail.html'
