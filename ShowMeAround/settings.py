@@ -130,4 +130,4 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-TIME_BEFORE = timedelta(minutes=20)  # the amount of time before a tour when the tour closes to additional users
+TIME_BEFORE = timedelta(seconds=30)  # the amount of time before a tour when the tour closes to additional users

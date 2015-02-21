@@ -16,11 +16,8 @@
     </div>
     {% if profile.languages.all %}
             Languages spoken:
-            <td>{% for language in profile.languages.all %}{{ language.get_name_display }}<br>{% endfor %}</td>
-<<<<<<< HEAD
-
-=======
-        </tr>
+            {% for language in profile.languages.all %}{{ language.get_name_display }}<br>{% endfor %}
+    {% endif %}
         {% if profile.is_guide %}
             <tr>
                 <th>Rating</th>
@@ -44,7 +41,6 @@
         </tr>
     {% endfor %}
     </table>
->>>>>>> df35172cd8855be4e97703fc5c45467aa78c1616
     {% endif %}
     <a href="{{ profile.get_update_url }}">Edit</a>
 {% endblock %}
