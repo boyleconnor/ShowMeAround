@@ -42,7 +42,7 @@
             {% endfor %}
         </table>
     {% else %}
-        {% if user_in_tour %} <a href="{{ tour.get_leave_url }}">Leave Tour</a> {% else %} <a href="{{ tour.get_join_url }}">Join Tour</a>{% endif %}
+        {% if user_in_tour and user.is_authenticated %} <a href="{{ tour.get_leave_url }}">Leave Tour</a> {% elif not user_in_tour and user.is_authenticated %} <a href="{{ tour.get_join_url }}">Join Tour</a> {% else %} {% endif %}
     {% endif %}
 
 {% endblock %}
