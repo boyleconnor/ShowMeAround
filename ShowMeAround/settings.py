@@ -41,8 +41,8 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'datetimewidget',
-    #'allauth.socialaccount',
-    #'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
     'Guides',
 )
 
@@ -107,7 +107,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'allauth.account.context_processors.account',
-    #'allauth.socialaccount.context_processors.socialaccount'
+    'allauth.socialaccount.context_processors.socialaccount'
 )
 
 TEMPLATE_DIRS = (
@@ -118,7 +118,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTH_USER_MODEL = 'Guides.User'
 LOGIN_REDIRECT_URL = '/'
-'''
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
@@ -126,7 +125,6 @@ SOCIALACCOUNT_PROVIDERS = {
         'METHOD': 'js_sdk'  # instead of 'oauth2'
     }
 }
-'''
 
 
 TIME_BEFORE = timedelta(minutes=20)  # the amount of time before a tour when the tour closes to additional users
