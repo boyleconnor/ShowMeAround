@@ -20,18 +20,10 @@ class Language(Model):
         return self.get_name_display()
 
 
-class User(AbstractBaseUser, PermissionsMixin):
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['name', 'email', ]
-
+class Profile(Model):
     languages = ManyToManyField(Language, null=True, blank=True)
-    objects = UserManager()
-    username = CharField(unique=True, max_length=30)
-    email = EmailField(unique=True)
     name = CharField(max_length=100, blank=True)
-    profile_picture = ImageField("Profile Pic", upload_to="images/", blank=True, null=True)
-    is_staff = BooleanField(default=False)
-    is_active = BooleanField(default=True)
+    profile_picture = ImageField('Profile Picture', upload_to='images/', blank=True, null=True)
     is_guide = BooleanField(default=False)
     date_joined = DateTimeField(auto_now_add=True)
 
@@ -42,16 +34,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.name
 
     def get_best_identifier(self):
-        return self.name if self.name else self.username
+        return self.name
 
     def get_absolute_url(self):
         return self.get_detail_url()
 
     def get_detail_url(self):
-        return reverse_lazy('guides:user.detail', kwargs={'pk': self.pk})
+        return reverse_lazy('guides:profile.detail', kwargs={'pk': self.pk})
 
     def get_update_url(self):
-        return reverse_lazy('guides:user.edit', kwargs={'pk': self.pk})
+        return reverse_lazy('guides:profile.edit', kwargs={'pk': self.pk})
 
     def get_rating(self):
         if self.reviews.count():
@@ -68,8 +60,8 @@ class Tour(Model):
     description = TextField(help_text="On the description, please specify the general location(s) of the tour and ways to contact you. ")
     language = ForeignKey(Language, blank=True, null=True)
 
-    guide = ForeignKey(User, related_name='guided_tours')
-    tourists = ManyToManyField(User, related_name='taken_tours', blank=True)
+    guide = ForeignKey(Profile, related_name='guided_tours')
+    tourists = ManyToManyField(Profile, related_name='taken_tours', blank=True)
     capacity = IntegerField()
 
     start_time = DateTimeField()
@@ -101,8 +93,8 @@ class Review(Model):
         unique_together = ('author', 'subject')
     title = CharField(max_length=255, blank=True)
     text = TextField(blank=True)
-    author = ForeignKey(User, related_name='authored_reviews')
-    subject = ForeignKey(User, related_name='reviews')
+    author = ForeignKey(Profile, related_name='authored_reviews')
+    subject = ForeignKey(Profile, related_name='reviews')
     stars = IntegerField()
 
     def get_detail_url(self):

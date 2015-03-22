@@ -1,12 +1,12 @@
 from datetimewidget.widgets import DateTimeWidget
 from django.forms.models import ModelForm, ModelChoiceField
 from django.forms.widgets import HiddenInput, TextInput
-from Guides.models import Tour, User, Review
+from Guides.models import Tour, Profile, Review
 
 
-class UserForm(ModelForm):
+class ProfileForm(ModelForm):
     class Meta:
-        model = User
+        model = Profile
         fields = ['name', 'email', 'languages', 'profile_picture']
         widgets = {'name': TextInput()}
 
