@@ -24,7 +24,7 @@
 			  <div class="container-fluid">
 			  		<ul class="navbar nav-pills nav-justified" style="font-size: 2em;">
 			  		{% if user.is_authenticated %}
-			  			<li role="presentation"><a href="http://127.0.0.1:8000/"> Find tours </a>
+			  			<li role="presentation"><a href="/"> Find tours </a>
 			  			</li>
   						<li role="presentation"><a href="{{ user.get_detail_url }}">Profile</a></li>
   						{% if user.is_guide %}
